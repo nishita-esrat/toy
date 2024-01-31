@@ -1,6 +1,6 @@
 require("dotenv").config();
 const express = require("express");
-const { MongoClient, ServerApiVersion } = require("mongodb");
+const { MongoClient, ServerApiVersion, ObjectId } = require("mongodb");
 const cors = require("cors");
 const app = express();
 app.use(cors());
@@ -24,10 +24,12 @@ async function run() {
     // database collection
     const database = client.db("toyDB");
     const collection_of_toy = database.collection("toys");
+
     // for checking route
     app.get("/health", (req, res) => {
       res.send("hello");
     });
+
     // creating new toy
     app.post("/addToy", async (req, res) => {
       const toy = req.body;
@@ -35,18 +37,20 @@ async function run() {
       console.log(result);
       res.send(result);
     });
+
     // get route based on the toyName,subCategory,sellerEmail,page,limit,orderAscOrDes
     app.get("/toys", async (req, res) => {
       // receive info
       const { toyName, subCategory, sellerEmail, page, limit, orderAscOrDes } =
         req.query;
-        console.log(req.query)
+      console.log(req.query);
       // for odering ascending or decending based on price
       const oderBasedOnPrice = orderAscOrDes == "ascending" ? 1 : -1;
-      console.log(oderBasedOnPrice)
+      console.log(oderBasedOnPrice);
       let option = {};
       // for limit and skip toy item
-      const limitToy = parseInt(limit) || (await collection_of_toy.countDocuments({}));
+      const limitToy =
+        parseInt(limit) || (await collection_of_toy.countDocuments({}));
       const skipToy = parseInt(limit) * ((parseInt(page) || 1) - 1);
       // for checking which type of toy data , we want
       let filter = {};
@@ -74,6 +78,56 @@ async function run() {
         .toArray();
       res.send(result);
     });
+
+    // get route for single toy item
+    app.get("/singleToy/:toyId", async (req, res) => {
+      const { toyId } = req.params;
+      const filter = { _id: new ObjectId(toyId) };
+      const result = await collection_of_toy.findOne(filter);
+      console.log(result);
+      res.send(result);
+    });
+
+    // update toy route
+    app.patch("/update/:toyId", async (req, res) => {
+      // get toy id ,which will be updated
+      const { toyId } = req.params;
+      // get toy value ,which will be updated
+      const toyUpdateValue = {
+        price: req.body.price,
+        available_quantity: req.body.available_quantity,
+        detail_description: req.body.detail_description,
+      };
+      // filter toy by id
+      const filter = { _id: new ObjectId(toyId) };
+      const options = { upsert: true };
+      const updateToy = {
+        $set: {
+          ...toyUpdateValue,
+        },
+      };
+      const result = await collection_of_toy.updateOne(
+        filter,
+        updateToy,
+        options
+      );
+      console.log(result);
+      res.send(result);
+    });
+
+
+    // delete toy route
+    app.delete("/delete/:toyId", async (req, res) => {
+      // get id of toy
+      const { toyId } = req.params;
+      // filter toy by id
+      const filter = { _id: new ObjectId(toyId) };
+      const result = await collection_of_toy.deleteOne(filter);
+      console.log(result);
+      res.send(result);
+    });
+
+    
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
