@@ -1,11 +1,17 @@
 import React from "react";
+import { Link, NavLink } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div className="navbar bg-base-100">
+    <div className="container navbar bg-base-100 mt-0 xl:mt-10 shadow-md">
+      {/* navber start */}
       <div className="navbar-start">
         <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
+          <div
+            tabIndex={0}
+            role="button"
+            className="mr-4 text-red-800 lg:hidden"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-5 w-5"
@@ -23,37 +29,168 @@ const Header = () => {
           </div>
           <ul
             tabIndex={0}
-            className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
+            className="menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
           >
             <li>
-              <a>Item 1</a>
-              
+              <NavLink
+                to="/"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                Home
+              </NavLink>
             </li>
             <li>
-              <a>Parent</a>
+              <NavLink
+                to="/allToy"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                All Toys
+              </NavLink>
             </li>
             <li>
-              <a>Item 3</a>
+              <NavLink
+                to="/allToy"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                All Toys
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/myToy"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                My Toys
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/addToy"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                Add a Toy
+              </NavLink>
+            </li>
+            <li>
+              <NavLink
+                to="/blogs"
+                className={({ isActive }) =>
+                  isActive
+                    ? "text-sm text-red-800 font-medium font-mono mb-5"
+                    : "text-gray-600 text-sm font-medium font-mono mb-5"
+                }
+              >
+                Blogs
+              </NavLink>
             </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">daisyUI</a>
+        <Link className="text-xl flex items-center font-bold ms-0 lg:ms-3">
+          Ty<span className="text-red-800 font-mono">Ro</span>bot
+          <img src="/logo.png" alt="logo" className="w-14" />
+        </Link>
       </div>
+      {/* navber center */}
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className=" menu-horizontal gap-7 px-1">
           <li>
-            <a>Item 1</a>
+            <NavLink
+              to="/"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-lg text-red-800 font-medium font-mono"
+                  : "text-gray-600 text-lg font-medium font-mono"
+              }
+            >
+              Home
+            </NavLink>
           </li>
           <li>
-            <a>Parent</a>
+            <NavLink
+              to="/allToy"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-lg text-red-800 font-medium font-mono"
+                  : "text-gray-600 text-lg font-medium font-mono"
+              }
+            >
+              All Toys
+            </NavLink>
           </li>
           <li>
-            <a>Item 3</a>
+            <NavLink
+              to="/myToy"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-lg text-red-800 font-medium font-mono"
+                  : "text-gray-600 text-lg font-medium font-mono"
+              }
+            >
+              My Toys
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/addToy"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-lg text-red-800 font-medium font-mono"
+                  : "text-gray-600 text-lg font-medium font-mono"
+              }
+            >
+              Add a Toy
+            </NavLink>
+          </li>
+          <li>
+            <NavLink
+              to="/blogs"
+              className={({ isActive }) =>
+                isActive
+                  ? "text-lg text-red-800 font-medium font-mono"
+                  : "text-gray-600 text-lg font-medium font-mono"
+              }
+            >
+              Blogs
+            </NavLink>
           </li>
         </ul>
       </div>
+      {/* navber end */}
       <div className="navbar-end">
-        <a className="btn">Button</a>
+        {/* navber user image */}
+        {/* <div className="dropdown dropdown-end">
+          <div tabIndex={0} role="button" className="btn btn-circle avatar">
+            <div className="w-14 rounded-full">
+              <img
+                alt="Tailwind CSS Navbar component"
+                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
+                title="somthing"
+              />
+            </div>
+          </div>
+        </div> */}
+        {/* navber login */}
+        <Link className="mr-0 lg:mr-2 btn-common">Login</Link>
       </div>
     </div>
   );

@@ -1,5 +1,12 @@
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer components {
+    .container {
+        @apply w-screen px-5 max-w-6xl m-auto;
+      }
+  .btn-common {
+    @apply bg-red-800 text-white sm:py-2 py-1 sm:px-5 px-3 rounded-md sm:text-lg text-base border-2 border-transparent font-semibold font-mono hover:bg-white hover:text-red-800 hover:border-red-800 duration-500;
+  }
+}
