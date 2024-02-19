@@ -178,7 +178,7 @@ const Header = () => {
       {/* navber end */}
       <div className="navbar-end">
         {/* navber user image */}
-        {/* <div className="dropdown dropdown-end">
+        {/* <div className="dropdown dropdown-end ">
           <div tabIndex={0} role="button" className="btn btn-circle avatar">
             <div className="w-14 rounded-full">
               <img
@@ -188,6 +188,12 @@ const Header = () => {
               />
             </div>
           </div>
+          <ul
+            tabIndex={0}
+            className="menu-sm dropdown-content mt-4 z-[1] p-2 shadow bg-base-100  w-24 bg-red-800 rounded-md"
+          >
+            <li className="text-white font-semibold text-center">Logout</li>
+          </ul>
         </div> */}
         {/* navber login */}
         <Link className="mr-0 lg:mr-2 btn-common">Login</Link>
