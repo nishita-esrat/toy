@@ -43,7 +43,8 @@ async function run() {
       // receive info
       const { toyName, subCategory, sellerEmail, page, limit, orderAscOrDes } =
         req.query;
-      console.log(req.query);
+      // console.log(req.query);
+      // console.log(subCategory);
       // for odering ascending or decending based on price
       const oderBasedOnPrice = orderAscOrDes == "ascending" ? 1 : -1;
       console.log(oderBasedOnPrice);
@@ -58,6 +59,7 @@ async function run() {
         filter = { toy_name: toyName };
       } else if (subCategory) {
         filter = { sub_category: subCategory };
+        console.log(filter);
       } else if (sellerEmail) {
         filter = { seller_email: sellerEmail };
       } else {
@@ -76,7 +78,9 @@ async function run() {
         .skip(skipToy)
         .limit(limitToy)
         .toArray();
-      res.send(result);
+      // To get the total count disregarding limit and skip
+      const totalCount = await collection_of_toy.countDocuments(filter);
+      res.send({totalCount,result});
     });
 
     // get route for single toy item
@@ -115,7 +119,6 @@ async function run() {
       res.send(result);
     });
 
-
     // delete toy route
     app.delete("/delete/:toyId", async (req, res) => {
       // get id of toy
@@ -126,8 +129,6 @@ async function run() {
       console.log(result);
       res.send(result);
     });
-
-    
   } finally {
     // Ensures that the client will close when you finish/error
     // await client.close();
