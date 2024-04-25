@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <div className="w-full bg-gray-900">
-      <footer className="footer justify-between container px-5 py-10 mt-10  text-neutral-content">
+    <div className="w-full bg-gray-900 mb-8">
+      <footer className="footer justify-between container px-5 py-10  text-neutral-content">
         <aside>
           <Link className="text-xl flex items-center font-bold ms-0 lg:ms-3">
             Ty<span className="text-red-800 font-mono">Ro</span>bot
@@ -50,7 +50,9 @@ const Footer = () => {
           </div>
         </nav>
       </footer>
-      <p className="text-gray-200 text-center py-5">Copyright © 2024 - All right reserved</p>
+      <p className="text-gray-200 text-center py-5">
+        Copyright © 2024 - All right reserved
+      </p>
     </div>
   );
 };
