@@ -72,7 +72,7 @@ const SubCategory = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-mono">
               {subCategorys.length != 0 ? (
                 subCategorys.map((subcategory) => (
-                  <div className="card bg-base-100 shadow-md">
+                  <div className="card bg-base-100 shadow-md" key={subcategory._id}>
                     <figure className="px-3 pt-5">
                       <img
                         src={subcategory.pic_of_toy}
