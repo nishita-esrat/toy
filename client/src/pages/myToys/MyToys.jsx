@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import ModalUpdate from "./ModalUpdate";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Link } from "react-router-dom";
