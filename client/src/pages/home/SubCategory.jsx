@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
-import { Link } from "react-router-dom";
 import Rating from "react-rating";
 import "react-tabs/style/react-tabs.css";
 import axios from "axios";
 import { useEffect } from "react";
+import singleToyLoader from "../../utility/getSingleToy";
+import ModalSingleToy from "../../shared/ModalSingleToy";
 
 const SubCategory = () => {
   const [subCategorys, setSubCategorys] = useState([]);
+  const [singleToy, setSingleToy] = useState({});
   const [tab, setTab] = useState("Educational Robots");
   const [totalData, setTotalData] = useState(0);
   const [page, setPage] = useState(1);
@@ -36,6 +38,10 @@ const SubCategory = () => {
     if (inOrDe == "decerment") {
       setPage((prevCounter) => prevCounter - 1);
     }
+  };
+  // view detail of single toy function
+  const viewDetailsFun = async (id) => {
+    await singleToyLoader(id, setSingleToy);
   };
   // fatch data
   const loadDataBasedOnSubCategory = async () => {
@@ -72,7 +78,10 @@ const SubCategory = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 font-mono">
               {subCategorys.length != 0 ? (
                 subCategorys.map((subcategory) => (
-                  <div className="card bg-base-100 shadow-md" key={subcategory._id}>
+                  <div
+                    className="card bg-base-100 shadow-md"
+                    key={subcategory._id}
+                  >
                     <figure className="px-3 pt-5">
                       <img
                         src={subcategory.pic_of_toy}
@@ -129,7 +138,12 @@ const SubCategory = () => {
                         }
                       />
 
-                      <Link className="btn-common mt-2">View Details</Link>
+                      <button
+                        className="btn-common mt-2"
+                        onClick={() => viewDetailsFun(subcategory._id)}
+                      >
+                        View Details
+                      </button>
                     </div>
                   </div>
                 ))
@@ -160,6 +174,18 @@ const SubCategory = () => {
           </button>
         </div>
       )}
+      {/* for modal component */}
+      <ModalSingleToy
+        toy_pic={singleToy?.pic_of_toy}
+        toy_name={singleToy?.toy_name}
+        seller_name={singleToy?.seller_name}
+        seller_email={singleToy?.seller_email}
+        rating={singleToy?.rating}
+        quantity={singleToy?.available_quantity}
+        price={singleToy?.price}
+        sub_category={singleToy?.sub_category}
+        details={singleToy?.detail_description}
+      />
     </div>
   );
 };

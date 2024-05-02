@@ -1,10 +1,12 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import singleToyLoader from "../utility/getSingleToy";
+import ModalSingleToy from "../shared/ModalSingleToy";
 
 const AllToy = () => {
   const [toys, setToys] = useState([]);
   const [toyName, setToyName] = useState("");
+  const [singleToy, setSingleToy] = useState({});
   const [totalToys, setTotalToys] = useState(0);
   const [pageArray, setPageArray] = useState([]);
   const [limit, setLimit] = useState(5);
@@ -32,6 +34,10 @@ const AllToy = () => {
   const limitValueFun = (event) => {
     setPage(1);
     setLimit(event.target.value);
+  };
+  // view detail of single toy function
+  const viewDetailsFun = async (id) => {
+    await singleToyLoader(id, setSingleToy);
   };
   // load toys data based on toy name ,limit ,page
   const loadAllToysData = async () => {
@@ -109,7 +115,12 @@ const AllToy = () => {
                   <td className="text-red-800 font-medium">{toy.price}$</td>
                   <td>{toy.available_quantity}</td>
                   <td className="text-right">
-                    <Link className="btn-common text-sm">view details</Link>
+                    <button
+                      className="btn-common text-sm"
+                      onClick={() => viewDetailsFun(toy._id)}
+                    >
+                      view details
+                    </button>
                   </td>
                 </tr>
               ))
@@ -148,6 +159,18 @@ const AllToy = () => {
           </select>
         </div>
       )}
+      {/* for modal component */}
+      <ModalSingleToy
+        toy_pic={singleToy?.pic_of_toy}
+        toy_name={singleToy?.toy_name}
+        seller_name={singleToy?.seller_name}
+        seller_email={singleToy?.seller_email}
+        rating={singleToy?.rating}
+        quantity={singleToy?.available_quantity}
+        price={singleToy?.price}
+        sub_category={singleToy?.sub_category}
+        details={singleToy?.detail_description}
+      />
     </div>
   );
 };
