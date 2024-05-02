@@ -15,15 +15,16 @@ const router = createBrowserRouter([
       },
       {
         path: "/allToy",
-        element: <AllToy/>,
+        element: <AllToy />,
       },
       {
         path: "/myToy",
-        element: <MyToys/>,
+        element: <MyToys />,
       },
       {
         path: "/update_toy/:toyId",
-        element: <UpdateToy/>,
+        element: <UpdateToy />,
+        loader:({params})=>fetch(`/api/singleToy/${params.toyId}`)
       },
     ],
   },

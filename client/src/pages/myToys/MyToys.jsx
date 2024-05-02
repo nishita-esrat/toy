@@ -44,10 +44,6 @@ const MyToys = () => {
       }
     });
   };
-  // update toy function and get one single toy
-  const handelUpdate = async (id) => {
-  };
-
   // load my toys data
   const loadMyToys = async () => {
     try {
@@ -132,9 +128,8 @@ const MyToys = () => {
                   <td className="text-center">{toy.available_quantity}</td>
                   <th className="text-end">
                     <Link
-                    to={`/update_toy/${toy._id}`}
+                      to={`/update_toy/${toy._id}`}
                       className="btn-common text-sm"
-                      onClick={() => handelUpdate(toy._id)}
                     >
                       update
                     </Link>
