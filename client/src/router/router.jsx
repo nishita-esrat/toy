@@ -5,6 +5,8 @@ import AllToy from "../pages/AllToy";
 import MyToys from "../pages/myToys/MyToys";
 import UpdateToy from "../pages/UpdateToy";
 import AddToy from "../pages/AddToy";
+import Login from "../pages/login/Login";
+import Register from "../pages/register/Register";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -29,7 +31,15 @@ const router = createBrowserRouter([
       {
         path: "/update_toy/:toyId",
         element: <UpdateToy />,
-        loader:({params})=>fetch(`/api/singleToy/${params.toyId}`)
+        loader: ({ params }) => fetch(`/api/singleToy/${params.toyId}`),
+      },
+      {
+        path: "/login",
+        element: <Login />,
+      },
+      {
+        path: "/register",
+        element: <Register />,
       },
     ],
   },

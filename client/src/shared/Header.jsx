@@ -196,7 +196,7 @@ const Header = () => {
           </ul>
         </div> */}
         {/* navber login */}
-        <Link className="mr-0 lg:mr-2 btn-common">Login</Link>
+        <Link to='/login' className="mr-0 lg:mr-2 btn-common">Login</Link>
       </div>
     </div>
   );
