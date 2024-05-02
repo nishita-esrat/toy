@@ -1,7 +1,9 @@
-import axios from "axios";
 import React, { useState } from "react";
+import axios from "axios";
+import Swal from "sweetalert2";
 
 const AddToy = () => {
+  // set initial value
   const initialValue = {
     toy_name: "",
     pic_of_toy: "",
@@ -12,16 +14,33 @@ const AddToy = () => {
     detail_description: "",
   };
   const [toyValue, setToyValue] = useState(initialValue);
+  //   get input value when input is changed
   const getToyValueInfoFromInput = (event) => {
     setToyValue({ ...toyValue, [event.target.name]: event.target.value });
   };
+  //   submit function for add toy
   const addToySubmit = async (event) => {
     event.preventDefault();
     toyValue.price = parseInt(toyValue.price);
     toyValue.seller_email = "choity@gmail.com";
     toyValue.seller_name = "choity";
+    if (toyValue.sub_category == "") {
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "enter sub category",
+      });
+    }
     const res = await axios.post("/api/addToy", toyValue);
-    console.log(res);
+    if (res.data.insertedId) {
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Your new toy is added",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    }
   };
   return (
     <div>
@@ -65,10 +84,11 @@ const AddToy = () => {
           <select
             className="select select-bordered w-full"
             name="sub_category"
-            value={toyValue.sub_category}
             onChange={getToyValueInfoFromInput}
-            required
           >
+            <option disabled selected>
+              select sub category
+            </option>
             <option>Educational Robots</option>
             <option>Interactive Robots</option>
             <option>Coding Robots</option>
