@@ -1,3 +1,4 @@
+import axios from "axios";
 import React, { useState } from "react";
 
 const AddToy = () => {
@@ -14,8 +15,13 @@ const AddToy = () => {
   const getToyValueInfoFromInput = (event) => {
     setToyValue({ ...toyValue, [event.target.name]: event.target.value });
   };
-  const addToySubmit = (event) => {
+  const addToySubmit = async (event) => {
     event.preventDefault();
+    toyValue.price = parseInt(toyValue.price);
+    toyValue.seller_email = "choity@gmail.com";
+    toyValue.seller_name = "choity";
+    const res = await axios.post("/api/addToy", toyValue);
+    console.log(res);
   };
   return (
     <div>
@@ -56,16 +62,19 @@ const AddToy = () => {
           <label className="label">
             <span className="label-text text-red-800">subcategory</span>
           </label>
-          <input
-            type="text"
-            placeholder="sub category"
+          <select
+            className="select select-bordered w-full"
             name="sub_category"
             value={toyValue.sub_category}
             onChange={getToyValueInfoFromInput}
             required
-            className="input input-bordered"
-          />
+          >
+            <option>Educational Robots</option>
+            <option>Interactive Robots</option>
+            <option>Coding Robots</option>
+          </select>
         </div>
+
         <div className="form-control">
           <label className="label">
             <span className="label-text text-red-800">rating</span>
@@ -92,7 +101,7 @@ const AddToy = () => {
             value={toyValue.price}
             onChange={getToyValueInfoFromInput}
             required
-            min={0}
+            min={1}
             className="input input-bordered"
           />
         </div>
@@ -108,7 +117,7 @@ const AddToy = () => {
             placeholder="available quantity"
             className="input input-bordered"
             required
-            min={0}
+            min={1}
           />
         </div>
         <div className="form-control">
