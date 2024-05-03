@@ -2,9 +2,13 @@ import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import Swal from "sweetalert2";
 import { authContext } from "../../provider/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Register = () => {
   const { createUser, nameAndPhoto } = useContext(authContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const path = location.state?.from || "/";
   const initialValue = {
     name: "",
     photo: "",
@@ -49,6 +53,8 @@ const Register = () => {
         icon: "success",
         title: "sign up successfully",
       });
+      // to redirect
+      navigate(path);
     } catch (error) {
       // error message
       Toast.fire({

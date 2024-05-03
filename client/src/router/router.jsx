@@ -7,6 +7,7 @@ import UpdateToy from "../pages/UpdateToy";
 import AddToy from "../pages/AddToy";
 import Login from "../pages/login/Login";
 import Register from "../pages/register/Register";
+import PrivateRoute from "../private/PrivateRoute";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -18,7 +19,11 @@ const router = createBrowserRouter([
       },
       {
         path: "/addToy",
-        element: <AddToy />,
+        element: (
+          <PrivateRoute>
+            <AddToy />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/allToy",
@@ -26,11 +31,19 @@ const router = createBrowserRouter([
       },
       {
         path: "/myToy",
-        element: <MyToys />,
+        element: (
+          <PrivateRoute>
+            <MyToys />
+          </PrivateRoute>
+        ),
       },
       {
         path: "/update_toy/:toyId",
-        element: <UpdateToy />,
+        element: (
+          <PrivateRoute>
+            <UpdateToy />
+          </PrivateRoute>
+        ),
         loader: ({ params }) => fetch(`/api/singleToy/${params.toyId}`),
       },
       {

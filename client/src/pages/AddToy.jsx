@@ -1,8 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { authContext } from "../provider/AuthContext";
 
 const AddToy = () => {
+  const { user } = useContext(authContext);
   // set initial value
   const initialValue = {
     toy_name: "",
@@ -22,8 +24,8 @@ const AddToy = () => {
   const addToySubmit = async (event) => {
     event.preventDefault();
     toyValue.price = parseInt(toyValue.price);
-    toyValue.seller_email = "choity@gmail.com";
-    toyValue.seller_name = "choity";
+    toyValue.seller_email = user.email;
+    toyValue.seller_name = user.displayName || "";
     if (toyValue.sub_category == "") {
       Swal.fire({
         icon: "error",

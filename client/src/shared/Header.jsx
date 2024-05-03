@@ -1,7 +1,39 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { authContext } from "../provider/AuthContext";
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
+  const navigate = useNavigate();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+  const { user, logOut, loading } = useContext(authContext);
+  const logOutButtonFun = async () => {
+    try {
+      await logOut();
+      Toast.fire({
+        icon: "success",
+        title: "log out successfully",
+      });
+      // to redirect home page
+      navigate("/");
+    } catch (error) {
+      Toast.fire({
+        icon: "error",
+        title: "something went wrong",
+      });
+    }
+  };
   return (
     <div className="container navbar bg-base-100 mt-0 xl:mt-10 shadow-md">
       {/* navber start */}
@@ -41,18 +73,6 @@ const Header = () => {
                 }
               >
                 Home
-              </NavLink>
-            </li>
-            <li>
-              <NavLink
-                to="/allToy"
-                className={({ isActive }) =>
-                  isActive
-                    ? "text-sm text-red-800 font-medium font-mono mb-5"
-                    : "text-gray-600 text-sm font-medium font-mono mb-5"
-                }
-              >
-                All Toys
               </NavLink>
             </li>
             <li>
@@ -177,26 +197,38 @@ const Header = () => {
       </div>
       {/* navber end */}
       <div className="navbar-end">
-        {/* navber user image */}
-        {/* <div className="dropdown dropdown-end ">
-          <div tabIndex={0} role="button" className="btn btn-circle avatar">
-            <div className="w-14 rounded-full">
-              <img
-                alt="Tailwind CSS Navbar component"
-                src="https://daisyui.com/images/stock/photo-1534528741775-53994a69daeb.jpg"
-                title="somthing"
-              />
+        {/*if login true than show loader , navber user image is exist than show othaerwise show navber login*/}
+        {loading ? (
+          <span className="loading loading-ring loading-lg text-red-800"></span>
+        ) : user ? (
+          <div className="dropdown dropdown-end me-2">
+            <div
+              tabIndex={0}
+              role="button"
+              className="btn btn-circle avatar tooltip tooltip-left"
+              data-tip={user.displayName}
+            >
+              <div className="w-14 rounded-full ">
+                <img alt="Tailwind CSS Navbar component" src={user.photoURL} />
+              </div>
             </div>
+            <ul
+              tabIndex={0}
+              className="menu-sm dropdown-content mt-4 z-[1] p-2 shadow bg-base-100  w-24 bg-red-800 rounded-md"
+            >
+              <li
+                className="text-white font-semibold text-center cursor-pointer"
+                onClick={logOutButtonFun}
+              >
+                Logout
+              </li>
+            </ul>
           </div>
-          <ul
-            tabIndex={0}
-            className="menu-sm dropdown-content mt-4 z-[1] p-2 shadow bg-base-100  w-24 bg-red-800 rounded-md"
-          >
-            <li className="text-white font-semibold text-center">Logout</li>
-          </ul>
-        </div> */}
-        {/* navber login */}
-        <Link to='/login' className="mr-0 lg:mr-2 btn-common">Login</Link>
+        ) : (
+          <Link to="/login" className="mr-0 lg:mr-2 btn-common">
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

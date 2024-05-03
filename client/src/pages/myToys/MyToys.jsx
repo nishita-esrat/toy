@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { authContext } from "../../provider/AuthContext";
 
 const MyToys = () => {
+  const {user} = useContext(authContext)
   const [loading, setLoading] = useState(true);
   const [myToys, setMyToys] = useState([]);
   const [sortPrice, setSortPrice] = useState("");
@@ -48,7 +50,7 @@ const MyToys = () => {
   const loadMyToys = async () => {
     try {
       const response = await axios.get(
-        `/api/toys?sellerEmail=choity@gmail.com&orderAscOrDes=${sortPrice}`
+        `/api/toys?sellerEmail=${user.email}&orderAscOrDes=${sortPrice}`
       );
       console.log(response.data);
       setMyToys(response.data.result);

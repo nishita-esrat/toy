@@ -3,9 +3,13 @@ import { Link } from "react-router-dom";
 import { FaGooglePlusG } from "react-icons/fa";
 import Swal from "sweetalert2";
 import { authContext } from "../../provider/AuthContext";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { signUser, signInWithGoogle } = useContext(authContext);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const path = location.state?.from || "/";
   const initialValue = {
     email: "",
     password: "",
@@ -45,6 +49,8 @@ const Login = () => {
         icon: "success",
         title: "sign in succesfully",
       });
+      // to redirect
+      navigate(path);
     } catch (error) {
       // error message
       Toast.fire({
@@ -62,6 +68,8 @@ const Login = () => {
         icon: "success",
         title: "successfully sign in with google",
       });
+      // to redirect
+      navigate(path);
     } catch (error) {
       // error message
       Toast.fire({
