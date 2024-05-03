@@ -5,7 +5,7 @@ import Swal from "sweetalert2";
 import { authContext } from "../../provider/AuthContext";
 
 const Login = () => {
-  const { signUser } = useContext(authContext);
+  const { signUser, signInWithGoogle } = useContext(authContext);
   const initialValue = {
     email: "",
     password: "",
@@ -22,12 +22,16 @@ const Login = () => {
     },
   });
   const [existUser, setExistUser] = useState(initialValue);
+  // to get input value function
   const getInputValue = (event) => {
     setExistUser({ ...existUser, [event.target.name]: event.target.value });
   };
+  // login function
   const loginHandler = async (event) => {
     event.preventDefault();
+    // password is less than 6
     if (existUser.password.length < 6) {
+      // error messsage
       Toast.fire({
         icon: "error",
         title: "password must be greater than 6",
@@ -36,18 +40,36 @@ const Login = () => {
     }
     try {
       await signUser(existUser.email, existUser.password);
+      // sign in successfully with email,password  and show success message
       Toast.fire({
         icon: "success",
         title: "sign in succesfully",
       });
     } catch (error) {
+      // error message
       Toast.fire({
         icon: "error",
         title: "invalid credential",
       });
     }
   };
-
+  // sign with google function
+  const googleFun = async () => {
+    try {
+      await signInWithGoogle();
+      // sign in successfully with google and show success message
+      Toast.fire({
+        icon: "success",
+        title: "successfully sign in with google",
+      });
+    } catch (error) {
+      // error message
+      Toast.fire({
+        icon: "error",
+        title: "invalid credential",
+      });
+    }
+  };
   return (
     <div className="container max-w-[550px] text-red-800 font-mono my-10">
       <form className="card-body p-0" onSubmit={loginHandler}>
@@ -95,7 +117,10 @@ const Login = () => {
         <div className="divider mt-8">or</div>
       </form>
       <div className="flex justify-center items-center mb-2 mx-8">
-        <button className="btn-common flex justify-center items-center gap-1">
+        <button
+          className="btn-common flex justify-center items-center gap-1"
+          onClick={googleFun}
+        >
           Google <FaGooglePlusG />
         </button>
       </div>

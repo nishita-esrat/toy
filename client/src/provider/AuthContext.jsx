@@ -4,10 +4,13 @@ import {
   createUserWithEmailAndPassword,
   updateProfile,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import app from "../firebase/firebase.init";
 export const authContext = createContext();
 const AuthContext = ({ children }) => {
+  const providerGoogle = new GoogleAuthProvider();
   const auth = getAuth(app);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -21,10 +24,13 @@ const AuthContext = ({ children }) => {
       photoURL: photo,
     });
   };
-  const signUser = (email,password)=>{
-    setLoading(true)
-    return signInWithEmailAndPassword(auth,email,password)
-  }
+  const signUser = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+  const signInWithGoogle = () => {
+    return signInWithPopup(auth, providerGoogle);
+  };
   const authObj = {
     user,
     setUser,
@@ -32,8 +38,9 @@ const AuthContext = ({ children }) => {
     createUser,
     nameAndPhoto,
     signUser,
+    signInWithGoogle,
   };
-  
+
   return (
     <authContext.Provider value={authObj}>{children}</authContext.Provider>
   );
