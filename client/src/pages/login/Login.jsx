@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGooglePlusG } from "react-icons/fa";
 import Swal from "sweetalert2";
+import { authContext } from "../../provider/AuthContext";
 
 const Login = () => {
+  const { signUser } = useContext(authContext);
   const initialValue = {
     email: "",
     password: "",
@@ -22,9 +24,8 @@ const Login = () => {
   const [existUser, setExistUser] = useState(initialValue);
   const getInputValue = (event) => {
     setExistUser({ ...existUser, [event.target.name]: event.target.value });
-    console.log(existUser);
   };
-  const loginHandler = (event) => {
+  const loginHandler = async (event) => {
     event.preventDefault();
     if (existUser.password.length < 6) {
       Toast.fire({
@@ -33,7 +34,20 @@ const Login = () => {
       });
       return;
     }
+    try {
+      await signUser(existUser.email, existUser.password);
+      Toast.fire({
+        icon: "success",
+        title: "sign in succesfully",
+      });
+    } catch (error) {
+      Toast.fire({
+        icon: "error",
+        title: "invalid credential",
+      });
+    }
   };
+
   return (
     <div className="container max-w-[550px] text-red-800 font-mono my-10">
       <form className="card-body p-0" onSubmit={loginHandler}>
