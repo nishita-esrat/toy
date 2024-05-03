@@ -1,11 +1,42 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaGooglePlusG } from "react-icons/fa";
+import Swal from "sweetalert2";
 
 const Login = () => {
+  const initialValue = {
+    email: "",
+    password: "",
+  };
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+  const [existUser, setExistUser] = useState(initialValue);
+  const getInputValue = (event) => {
+    setExistUser({ ...existUser, [event.target.name]: event.target.value });
+    console.log(existUser);
+  };
+  const loginHandler = (event) => {
+    event.preventDefault();
+    if (existUser.password.length < 6) {
+      Toast.fire({
+        icon: "error",
+        title: "password must be greater than 6",
+      });
+      return;
+    }
+  };
   return (
     <div className="container max-w-[550px] text-red-800 font-mono my-10">
-      <form className="card-body p-0">
+      <form className="card-body p-0" onSubmit={loginHandler}>
         <h4 className="mb-5 text-xl font-bold">sign in</h4>
         <div className="form-control">
           <label className="label">
@@ -13,6 +44,9 @@ const Login = () => {
           </label>
           <input
             type="email"
+            name="email"
+            value={existUser.email}
+            onChange={getInputValue}
             placeholder="enter your email"
             className="input input-bordered"
             required
@@ -24,6 +58,9 @@ const Login = () => {
           </label>
           <input
             type="password"
+            name="password"
+            value={existUser.password}
+            onChange={getInputValue}
             placeholder="enter your password"
             className="input input-bordered"
             required
