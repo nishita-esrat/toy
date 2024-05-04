@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import Rating from "react-rating";
 import "react-tabs/style/react-tabs.css";
@@ -6,8 +6,24 @@ import axios from "axios";
 import { useEffect } from "react";
 import singleToyLoader from "../../utility/getSingleToy";
 import ModalSingleToy from "../../shared/ModalSingleToy";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
+import { authContext } from "../../provider/AuthContext";
 
 const SubCategory = () => {
+  const { user } = useContext(authContext);
+  const navigation = useNavigate();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
   const [subCategorys, setSubCategorys] = useState([]);
   const [singleToy, setSingleToy] = useState({});
   const [tab, setTab] = useState("Educational Robots");
@@ -41,7 +57,15 @@ const SubCategory = () => {
   };
   // view detail of single toy function
   const viewDetailsFun = async (id) => {
-    await singleToyLoader(id, setSingleToy);
+    if (user) {
+      await singleToyLoader(id, setSingleToy);
+    } else {
+      Toast.fire({
+        icon: "info",
+        title: "you have to log in first to view details",
+      });
+      navigation("/login");
+    }
   };
   // fatch data
   const loadDataBasedOnSubCategory = async () => {

@@ -1,9 +1,25 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import singleToyLoader from "../utility/getSingleToy";
 import ModalSingleToy from "../shared/ModalSingleToy";
+import { authContext } from "../provider/AuthContext";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const AllToy = () => {
+  const { user } = useContext(authContext);
+  const navigation = useNavigate();
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 3000,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
   const [toys, setToys] = useState([]);
   const [toyName, setToyName] = useState("");
   const [singleToy, setSingleToy] = useState({});
@@ -37,7 +53,15 @@ const AllToy = () => {
   };
   // view detail of single toy function
   const viewDetailsFun = async (id) => {
-    await singleToyLoader(id, setSingleToy);
+    if (user) {
+      await singleToyLoader(id, setSingleToy);
+    } else {
+      Toast.fire({
+        icon: "info",
+        title: "you have to log in first to view details",
+      });
+      navigation("/login");
+    }
   };
   // load toys data based on toy name ,limit ,page
   const loadAllToysData = async () => {

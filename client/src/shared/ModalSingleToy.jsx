@@ -27,10 +27,12 @@ const ModalSingleToy = ({
                   {toy_name}
                 </span>
               </p>
-              <p className="text-slate-500">
-                seller name :
-                <span className="text-slate-700">{seller_name}</span>
-              </p>
+              {seller_name && (
+                <p className="text-slate-500">
+                  seller name :
+                  <span className="text-slate-700">{seller_name}</span>
+                </p>
+              )}
               <p className="text-slate-500">
                 seller email :
                 <span className="text-slate-700">{seller_email}</span>
