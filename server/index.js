@@ -34,7 +34,6 @@ async function run() {
     app.post("/addToy", async (req, res) => {
       const toy = req.body;
       const result = await collection_of_toy.insertOne(toy);
-      console.log(result);
       res.send(result);
     });
 
@@ -43,15 +42,11 @@ async function run() {
       // receive info
       const { toyName, subCategory, sellerEmail, page, limit, orderAscOrDes } =
         req.query;
-      // console.log(req.query);
-      // console.log(subCategory);
       // for odering ascending or decending based on price
       const oderBasedOnPrice = orderAscOrDes == "ascending" ? 1 : -1;
-      console.log(oderBasedOnPrice);
       let option = {};
       // for limit and skip toy item
-      const limitToy =
-        parseInt(limit) || (await collection_of_toy.countDocuments({}));
+      const limitToy = parseInt(limit) || (await collection_of_toy.countDocuments({}));
       const skipToy = parseInt(limit) * ((parseInt(page) || 1) - 1);
       // for checking which type of toy data , we want
       let filter = {};
@@ -59,7 +54,6 @@ async function run() {
         filter = { toy_name: toyName };
       } else if (subCategory) {
         filter = { sub_category: subCategory };
-        console.log(filter);
       } else if (sellerEmail) {
         filter = { seller_email: sellerEmail };
       } else {
@@ -80,7 +74,7 @@ async function run() {
         .toArray();
       // To get the total count disregarding limit and skip
       const totalCount = await collection_of_toy.countDocuments(filter);
-      res.send({totalCount,result});
+      res.send({ totalCount, result });
     });
 
     // get route for single toy item
@@ -88,7 +82,6 @@ async function run() {
       const { toyId } = req.params;
       const filter = { _id: new ObjectId(toyId) };
       const result = await collection_of_toy.findOne(filter);
-      console.log(result);
       res.send(result);
     });
 
@@ -115,7 +108,6 @@ async function run() {
         updateToy,
         options
       );
-      console.log(result);
       res.send(result);
     });
 
@@ -126,7 +118,6 @@ async function run() {
       // filter toy by id
       const filter = { _id: new ObjectId(toyId) };
       const result = await collection_of_toy.deleteOne(filter);
-      console.log(result);
       res.send(result);
     });
   } finally {
