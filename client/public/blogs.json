@@ -1,0 +1,22 @@
+[
+  {
+    "id": "bolg_1",
+    "question": "What is an access token and refresh token? How do they work and where should we store them on the client-side?",
+    "answer": "Access Token: Allows access to protected resources. Stored securely in memory or secure storage on the client-side.Refresh Token: Used to get a new access token when the current one expires. Stored securely in a location offering additional protection, such as secure storage or a secure HTTP-only cookie on the client-side."
+  },
+  {
+    "id": "bolg_2",
+    "question": "Compare SQL and NoSQL databases?",
+    "answer": "SQL databases are vertically scalable, while NoSQL databases are horizontally scalable. SQL databases are table-based, while NoSQL databases are document"
+  },
+  {
+    "id": "bolg_3",
+    "question": "What is express js? What is Nest JS?",
+    "answer": "Express.js is a minimalist and flexible framework suitable for various use cases, while Nest.js provides a more opinionated and structured approach"
+  },
+  {
+    "id": "bolg_4",
+    "question": "What is MongoDB aggregate and how does it work?",
+    "answer": "Aggregation operations process data records and return computed results."
+  }
+]
