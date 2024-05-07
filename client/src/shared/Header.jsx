@@ -18,6 +18,7 @@ const Header = () => {
     },
   });
   const { user, logOut, loading } = useContext(authContext);
+  // log out function
   const logOutButtonFun = async () => {
     try {
       await logOut();
@@ -209,7 +210,7 @@ const Header = () => {
               data-tip={user.displayName}
             >
               <div className="w-14 rounded-full ">
-                <img alt="Tailwind CSS Navbar component" src={user.photoURL} />
+                <img alt="user photo" src={user.photoURL} />
               </div>
             </div>
             <ul
